@@ -9,17 +9,6 @@ var contextMenuItem = {
   "contexts": ["selection"]
 };
 
-function getMethods(obj)
-{
-  var res = [];
-  for(var m in obj) {
-    if(typeof obj[m] == "function") {
-      res.push(m)
-    }
-  }
-  return res;
-}
-
 chrome.contextMenus.create(contextMenuItem);
 
 chrome.contextMenus.onClicked.addListener(function(clickData){
