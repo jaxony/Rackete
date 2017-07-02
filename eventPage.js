@@ -11,8 +11,8 @@ var contextMenuItem = {
 
 chrome.contextMenus.create(contextMenuItem);
 
-chrome.contextMenus.onClicked.addListener(function(clickData){
-  if (clickData.menuItemId == "searchWord" && clickData.selectionText) 
+chrome.contextMenus.onClicked.addListener(function(clickData, tab){
+  if (clickData.menuItemId == "searchWord" && clickData.selectionText && tab) 
   {
     var query = clickData.selectionText;
     var url_dictcc = "http://www.dict.cc/?s=" + query;
@@ -43,6 +43,41 @@ chrome.contextMenus.onClicked.addListener(function(clickData){
         console.log(text[text.length-1]);
       }
       //console.log(text);
+
+      // var code = [
+      //   'var raketeSidebar = document.createElement("div");',
+      //   'document.body.style.paddingRight = 350px;',
+      //   'raketeSidebar.setAttribute("style", "'
+      //     + 'background-color: red; '
+      //     + 'width: 350px; '
+      //     + 'height: 100%; '
+      //     + 'position: fixed; '
+      //     + 'right: 0px; '
+      //     + 'top: 0px; '
+      //     + 'z-index: 9999; '
+      //     + '");',
+      //     'document.body.appendChild(raketeSidebar);'
+      // ].join('\n');
+
+      /* Create the code to be injected */
+      var code = [
+          'var d = document.createElement("div");',
+          'document.body.style.paddingRight = "350px";',
+          'd.setAttribute("style", "'
+              + 'background-color: blue; '
+              + 'width: 350px; '
+              + 'height: 100%; '
+              + 'position: fixed; '
+              + 'top: 0px; '
+              + 'right: 0px; '
+              + 'z-index: 9999; '
+              + '");',
+          'document.body.appendChild(d);'
+      ].join("\n");
+
+      /* Inject the code into the current tab */
+      chrome.tabs.executeScript(tab.id, { code: code });
+
     }); 
   }
 });
