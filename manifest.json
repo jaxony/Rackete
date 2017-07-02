@@ -11,10 +11,11 @@
   },
 
   "permissions": [
-   "contextMenus",
-   "https://www.linguee.com/",
-   "http://www.dict.cc/"
-   ],
+    "activeTab",
+    "contextMenus",
+    "https://www.linguee.com/",
+    "http://www.dict.cc/"
+  ],
 
   "icons": {
     "16": "icon16.png"
