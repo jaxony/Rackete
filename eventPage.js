@@ -11,7 +11,7 @@ var contextMenuItem = {
 
 chrome.contextMenus.create(contextMenuItem);
 
-chrome.contextMenus.onClicked.addListener(function(clickData, tab){
+chrome.contextMenus.onClicked.addListener(function(clickData, tab) {
   if (clickData.menuItemId == "searchWord" && clickData.selectionText && tab) 
   {
     var query = clickData.selectionText;
@@ -20,7 +20,7 @@ chrome.contextMenus.onClicked.addListener(function(clickData, tab){
     var parsed_html = null;
 
     // use AJAX to get HTML of dictionary query
-    $.get(url_dictcc, function(data, status){
+    $.get(url_dictcc, function(data, status) {
       // scrape content table
       var content_table =  $($.parseHTML(data)).filter("#maincontent").find('table');
       // scrape definition rows
@@ -44,8 +44,9 @@ chrome.contextMenus.onClicked.addListener(function(clickData, tab){
       }
 
       // inject code into active tab
-      chrome.tabs.executeScript(tab.id, { file: "sidebar.js" });
-
+      chrome.tabs.executeScript(tab.id, { file: "sidebar.js" }, function() {
+        chrome.tabs.sendMessage(tab.id, text);
+      });
     }); 
   }
 });
