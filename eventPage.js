@@ -30,15 +30,19 @@ chrome.contextMenus.onClicked.addListener(function(clickData){
 
       console.log("Found " + content_rows.length + " translations.");
       
-      var i;
-      var text = []
-      console.log(typeof content_rows[0]);
+      var i, j;
+      var text = [];
       for (i=0; i<content_rows.length; i++) {
         text.push($(content_rows[i]).find('td').filter(function() {
           return this.className.match('td7nl')
-        })[0].innerText);
+        }));
+        //console.log(text[text.length-1]);
+        for (j=0; j<2; j++) {
+          text[text.length-1][j] = ($(text[text.length-1][j]).find('a'))[0].innerText;
+        }
+        console.log(text[text.length-1]);
       }
-      console.log(text);
+      //console.log(text);
     }); 
   }
 });
