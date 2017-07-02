@@ -1,5 +1,5 @@
 var script = document.createElement('script');
-script.src = 'jquery-3.2.1.min.js';
+script.src = 'js/jquery-3.2.1.min.js';
 script.type = 'text/javascript';
 document.getElementsByTagName('head')[0].appendChild(script);
 
@@ -44,7 +44,7 @@ chrome.contextMenus.onClicked.addListener(function(clickData, tab) {
       }
 
       // inject code into active tab
-      chrome.tabs.executeScript(tab.id, { file: "sidebar.js" }, function() {
+      chrome.tabs.executeScript(tab.id, { file: "js/sidebar.js" }, function() {
         chrome.tabs.sendMessage(tab.id, text);
       });
     }); 
