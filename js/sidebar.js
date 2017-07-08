@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener(function(text, sender, sendResponse)
     // inject custom bootstrap in 'style.min.css' into document
     var head  = document.getElementsByTagName('head')[0];
     var link  = document.createElement('link');
-    link.id = 'ts-bs-link';
+    link.id = 'tw-bs-link';
     link.rel  = 'stylesheet';
     link.type = 'text/css';
     link.href = chrome.runtime.getURL('css/style.min.css');
