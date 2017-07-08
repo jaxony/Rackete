@@ -11,6 +11,22 @@ var contextMenuItem = {
 
 chrome.contextMenus.create(contextMenuItem);
 
+function parseDictCCEntry(entry) {
+  // given a HTML DOM <td> object in dict.cc of class 'td7nl',
+  // get the innerText of its children attribute tags, and
+  // add the words to an array.
+  //
+  // Return a concatenated string of innerText of <a> 
+  // within <td class='td7nl'>.
+  var entryWords = [];
+  var entryAttributes = $(entry).find('a').filter('a');
+  
+  for (var i=0; i<entryAttributes.length; i++) {
+    entryWords.push(entryAttributes[i].innerText);
+  }
+  return entryWords.join(' ');
+}
+
 chrome.contextMenus.onClicked.addListener(function(clickData, tab) {
   if (clickData.menuItemId == "searchWord" && clickData.selectionText && tab) 
   {
@@ -37,8 +53,11 @@ chrome.contextMenus.onClicked.addListener(function(clickData, tab) {
           return this.className.match('td7nl')
         }));
         //console.log(text[text.length-1]);
-        for (j=0; j<2; j++) {
-          text[text.length-1][j] = ($(text[text.length-1][j]).find('a'))[0].innerText;
+        for (j=0; j<2; j++) { // index 0 is the English entry, entry 1 is the German entry
+          // number of words in the entry
+          console.log(text[text.length-1][j]);
+          text[text.length-1][j] = parseDictCCEntry(text[text.length-1][j]);
+          //text[text.length-1][j] = ($(text[text.length-1][j]).find('a'))[0].innerText;
         }
         console.log(text[text.length-1]);
       }
