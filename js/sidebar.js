@@ -1,4 +1,3 @@
-
 chrome.runtime.onMessage.addListener(function(text, sender, sendResponse) 
 {
   // Only inject sidebar if it does not already exist
@@ -8,7 +7,7 @@ chrome.runtime.onMessage.addListener(function(text, sender, sendResponse)
     console.log("Making new sidebar!!!");    
     raketeSidebar = document.createElement("div");
     raketeSidebar.id = "raketeSidebar";
-    document.body.style.paddingRight = "350px";
+    document.body.style.paddingRight = "250px";
 
     raketeSidebar.setAttribute("style", [
       'background-color: white;',
@@ -17,35 +16,43 @@ chrome.runtime.onMessage.addListener(function(text, sender, sendResponse)
       'position: fixed;',
       'top: 0px;',
       'right: 0px;',
-      'z-index: 9999;'].join('\n')
+      'z-index: 9999;'].join(' ')
     );
     document.body.appendChild(raketeSidebar);
   }
-  console.log("@@@@@@@@@@");
-  // inject bootstrap
-  var cssId = 'bootstrap';
-  if (!document.getElementById(cssId))
-  {
+
+
+  // inject twitter bootstrap if not already injected
+  if (!document.getElementById("tw-bs-link")) {
+    // inject custom bootstrap in 'style.min.css' into document
     var head  = document.getElementsByTagName('head')[0];
     var link  = document.createElement('link');
-    link.id   = cssId;
+    link.id = 'ts-bs-link';
     link.rel  = 'stylesheet';
     link.type = 'text/css';
-    link.href = chrome.runtime.getURL('css/bootstrap.min.css');
+    link.href = chrome.runtime.getURL('css/style.min.css');
     link.media = 'all';
     head.appendChild(link);
+
+    // make rakete sidebar use bootstrap
+    raketeSidebar.className = "tw-bs";
   }
-  console.log("$$$$$$$$$$");
-  // delete existing tables
 
-  // make new table
-  // console.log(typeof text);
-  // console.log(text);
-  // console.log(sender);
-  // console.log(sendResponse);
+  if (!document.getElementById("closeRakete")) {
+    // add javascript function for close button
+    var script = document.createElement('script');
+    script.src = chrome.runtime.getURL('js/closeSidebar.js');
+    script.type = 'text/javascript';
+    document.getElementsByTagName('head')[0].appendChild(script);
 
-  console.log(text);
+    // add button
+    var closeButtonDiv = document.createElement("div");
+    closeButtonDiv.innerHTML = '<button type="button" class="close" id="closeRakete" aria-label="Close" onClick="closeSidebar()">'
+                               + '<span aria-hidden="true">&times;</span>'
+                               + '</button>';
+    raketeSidebar.appendChild(closeButtonDiv);
 
+  }
 
   // make table for dict cc results
   var table = document.getElementById('dictcc');
@@ -65,12 +72,6 @@ chrome.runtime.onMessage.addListener(function(text, sender, sendResponse)
     // make body upon creation 
     tbody = document.createElement('tbody');
     table.appendChild(tbody);
-
-    // style the table
-    table.setAttribute("style", [
-      'padding: 10px'
-      ].join('\n')
-    );
     
     // add table to sidebar
     raketeSidebar.appendChild(table);

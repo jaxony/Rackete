@@ -11,7 +11,9 @@
   },
 
   "web_accessible_resources": [
-    "css/bootstrap.min.css",
+    //"css/bootstrap.min.css",
+    "js/closeSidebar.js",
+    "css/style.min.css",
     "css/glyphicons-halflings-regular.eot",
     "css/glyphicons-halflings-regular.svg",
     "css/glyphicons-halflings-regular.ttf",
