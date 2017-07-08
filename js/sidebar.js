@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(function(text, sender, sendResponse)
     document.body.style.paddingRight = "350px";
 
     raketeSidebar.setAttribute("style", [
-      'background-color: blue;',
+      'background-color: white;',
       'width: 350px;',
       'height: 100%;',
       'position: fixed;',
@@ -44,18 +44,46 @@ chrome.runtime.onMessage.addListener(function(text, sender, sendResponse)
   // console.log(sender);
   // console.log(sendResponse);
 
-  var table = [
-    '<table class="table table-hover">',
-    '<thead>', 
-    '<tr>',
-    '<th>Firstname</th>',
-    '<th>Lastname</th>',
-    '<th>Email</th>',
-    '</tr>',
-    '</thead>'
-  ].join('\n');
+  console.log(text);
+
+  var table = document.createElement('table');
+  table.classList.add('table', 'table-hover');
+  var header = table.createTHead();
+  header.innerHTML = '<tr>'
+    + '<th>English</th>'
+    + '<th>German</th>'
+    +'</tr>';
+
+  // var table = [
+  //   '<table class="table table-hover">',
+  //   '<thead>', 
+  //   '<tr>',
+  //   '<th>Firstname</th>',
+  //   '<th>Lastname</th>',
+  //   '<th>Email</th>',
+  //   '</tr>',
+  //   '</thead>',
+  //   '<tbody>',
+  //     '<tr>',
+  //       '<td>John</td>',
+  //       '<td>Doe</td>',
+  //       '<td>john@example.com</td>',
+  //     '</tr>',
+  //     '<tr>',
+  //       '<td>Mary</td>',
+  //       '<td>Moe</td>',
+  //       '<td>mary@example.com</td>',
+  //     '</tr>',
+  //     '<tr>',
+  //       '<td>July</td>',
+  //       '<td>Dooley</td>',
+  //       '<td>july@example.com</td>',
+  //     '</tr>',
+  //   '</tbody>',
+  // '</table>'
+  // ].join('\n');
   console.log(table);
-  raketeSidebar.innerHTML = table;
+  raketeSidebar.appendChild(table);
 
 
 });
