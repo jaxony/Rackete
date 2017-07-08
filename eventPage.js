@@ -11,20 +11,16 @@ var contextMenuItem = {
 
 chrome.contextMenus.create(contextMenuItem);
 
-function getInnerHTML(element) {
-  return element.innerHTML;
-}
-
 function parseDictCCEntry(entry) {
-  // given a jQuery <td> in dict.cc of class 'td7nl',
-  // get the innerText of the attribute tags, and
-  // add to an array.
+  // given a HTML DOM <td> object in dict.cc of class 'td7nl',
+  // get the innerText of its children attribute tags, and
+  // add the words to an array.
   //
-  // Return an array of innerText of <a> within <td class='td7nl'>.
+  // Return a concatenated string of innerText of <a> 
+  // within <td class='td7nl'>.
   var entryWords = [];
   var entryAttributes = $(entry).find('a').filter('a');
   
-  //console.log($(entry).filter('a'));
   for (var i=0; i<entryAttributes.length; i++) {
     entryWords.push(entryAttributes[i].innerText);
   }
