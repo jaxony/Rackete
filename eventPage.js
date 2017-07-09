@@ -56,7 +56,7 @@ function parseDictCC(data) {
     for (j=0; j<2; j++) {
       // index 0 is the English, entry 1 is the German entry
       text[text.length-1][j] = parseDictCCEntry(text[text.length-1][j]);
-      console.log(text[text.length-1]);
+      //console.log(text[text.length-1]);
     }
   }
   console.log('Finished parsing DictCC.');
@@ -81,7 +81,20 @@ function getData(url, parse) {
 
 function parseLinguee(data) {
   var text = [];
+  // parse html, get translation examples
+  var examples = $($.parseHTML(data)).find('div.example.line');
+  console.log(examples);
+
+  var german_examples = examples.find('span.tag_s');
+  var english_examples = examples.find('span.tag_t');
+
+  var num_examples = german_examples.length;
+  for (var i=0; i<num_examples; i++) {
+    // add an innerText pair [english, german] to the `text` array
+    text.push([english_examples[i].innerText, german_examples[i].innerText]);
+  }
   console.log('Finished parsing Linguee.');
+  console.log(text);
   return text;
 }
 
