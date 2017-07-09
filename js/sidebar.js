@@ -1,5 +1,9 @@
-chrome.runtime.onMessage.addListener(function(text, sender, sendResponse) 
+chrome.runtime.onMessage.addListener(function(entries, sender, sendResponse) 
 {
+  // unpack the dict.cc and linguee.com entries
+  var text_dictcc = entries[0];
+  var text_linguee = entries[1];
+
   // Only inject sidebar if it does not already exist
   var raketeSidebar = document.getElementById("raketeSidebar");
 
@@ -84,14 +88,14 @@ chrome.runtime.onMessage.addListener(function(text, sender, sendResponse)
   }
 
   // populate the table with new entries
-  var numRows = Math.min(5, text.length);
+  var numRows = Math.min(5, text_dictcc.length);
   for (var i=0; i<numRows; i++) {
     var tr = document.createElement('tr');
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
 
-    var text1 = document.createTextNode(text[i][0]);
-    var text2 = document.createTextNode(text[i][1]);
+    var text1 = document.createTextNode(text_dictcc[i][0]);
+    var text2 = document.createTextNode(text_dictcc[i][1]);
 
     td1.appendChild(text1);
     td2.appendChild(text2);

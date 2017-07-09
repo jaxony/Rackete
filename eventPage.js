@@ -83,18 +83,19 @@ function parseLinguee(data) {
   var text = [];
   // parse html, get translation examples
   var examples = $($.parseHTML(data)).find('div.example.line');
-  console.log(examples);
+  //console.log(examples);
 
   var german_examples = examples.find('span.tag_s');
   var english_examples = examples.find('span.tag_t');
 
   var num_examples = german_examples.length;
+  console.log('Found ' + num_examples + ' examples on Linguee.com.');
   for (var i=0; i<num_examples; i++) {
     // add an innerText pair [english, german] to the `text` array
     text.push([english_examples[i].innerText, german_examples[i].innerText]);
   }
   console.log('Finished parsing Linguee.');
-  console.log(text);
+  //console.log(text);
   return text;
 }
 
@@ -111,29 +112,16 @@ function displayEntries(url_dictcc, url_linguee, tabId) {
     return [parseDictCC(datas[0]), parseLinguee(datas[1])]
   })
   .then((entries) => {
+    console.log(entries);
     chrome.tabs.executeScript(
       tabId, 
       { file: "js/sidebar.js" }, 
-      chrome.tabs.sendMessage(tabId, entries)
+      function () { chrome.tabs.sendMessage(tabId, entries) }
     );
   })
   .catch((error) => {
     console.log('Woops! ' + error.message);
   });
-
-  // $.when(
-  //   // wait for AJAX to scrape the two webpages
-  //   getDictCcEntries(url_dictcc),
-  //   getLingueeEntries(url_linguee)
-
-  // ).then(function(dictcc_entries, linguee_entries) {
-  //   // inject sidebar into active tab
-  //   // use Chrome message API to pass entry arrays to js/sidebar.js
-  //   console.log('Executing script after AJAX');
-  //   chrome.tabs.executeScript(tabId, { file: "js/sidebar.js" }, function() {
-  //     chrome.tabs.sendMessage(tabId, dictcc_entries);
-  //   });
-  // });
 }
 
 chrome.contextMenus.onClicked.addListener(function(clickData, tab) {
